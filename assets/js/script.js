@@ -1,8 +1,7 @@
 //-------------------------------------------------------------VARIABLES
-// var buttonEl = document.querySelector("#save-task");
-
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var taskIdCounter = 0;
 
 //--------------------------------------------------------------FUNCTIONS
 var taskFormHandler = function(event) {
@@ -34,6 +33,9 @@ var createTaskEl = function(taskDataObj) {
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
 
+    //add task id as a custom attribute
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+
     //create div element to hold task infor and add to list item vs li element
     var taskInfoEl = document.createElement("div");
     taskInfoEl.className = "task-info";
@@ -41,9 +43,58 @@ var createTaskEl = function(taskDataObj) {
     
     listItemEl.appendChild(taskInfoEl);
 
-    // add entire list itme to list
+    //get task actions to add in
+    var taskActionsEl = createTaskActions(taskIdCounter);
+    listItemEl.appendChild(taskActionsEl);
+
+    // add entire list item to list on the page
     tasksToDoEl.appendChild(listItemEl);
     // console.dir(listItemEl);    
+
+    // increas teh task counter for next unique id
+    taskIdCounter++;
+};
+
+var createTaskActions = function(taskId) {
+    var actionContainterEl = document.createElement("div");
+    actionContainterEl.className = "task-actions";
+
+    //Edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+    actionContainterEl.appendChild(editButtonEl);
+
+    //Delete button
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+    actionContainterEl.appendChild(deleteButtonEl);
+
+    //Task status selection
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+    actionContainterEl.appendChild(statusSelectEl);
+
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+
+    for (let i = 0; i < statusChoices.length; i++) {
+        const element = statusChoices[i];
+        
+        //create an task status option element
+        var statusOptionEl = document.createElement("option");
+        statusOptionEl.textContent = element
+        statusOptionEl.setAttribute("value", element);
+        
+        //append each status to the select
+        statusSelectEl.appendChild(statusOptionEl);
+    }
+
+    return actionContainterEl;
 };
 
 //---------------------------------------------------------------EVENT LISTENERS
