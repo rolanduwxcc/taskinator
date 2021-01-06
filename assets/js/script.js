@@ -61,9 +61,7 @@ var createTaskEl = function(taskDataObj) {
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
 
-    // add entire list item to list on the page
-    // tasksToDoEl.appendChild(listItemEl);
-    // console.dir(listItemEl);    
+    // add entire list item to a status list section on page 
     if (taskDataObj.status === "to do") {
         listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
         tasksToDoEl.appendChild(listItemEl);
@@ -77,11 +75,11 @@ var createTaskEl = function(taskDataObj) {
         tasksCompletedEl.appendChild(listItemEl);
     }
 
-
     //add new task to task object array and store task id on the object
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
     saveTasks();
+    
     // increase the task counter for next unique id
     taskIdCounter++;
 };
