@@ -286,7 +286,7 @@ var loadTasks = function() {
     //get tasks from local storage and load back to tasks array
     var savedTasks = localStorage.getItem("tasks");
     
-    if (!saveTasks) {
+    if (!savedTasks) {
         return false;
     }
 
@@ -299,8 +299,6 @@ var loadTasks = function() {
 
 };
 
-loadTasks();
-
 //---------------------------------------------------------------EVENT LISTENERS
 formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
@@ -310,3 +308,6 @@ pageContentEl.addEventListener("dragover",dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 
+
+//---------------------------------------------------------------FIRST CALLS
+loadTasks();
